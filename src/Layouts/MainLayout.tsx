@@ -1,16 +1,33 @@
-import { Footer, Header } from "@/Components/Landing";
+import { Header, Sidebar } from "@/Components/Main";
+interface MainLayoutProps {
+  title?: string;
+  subtitle?: string;
+  children: React.ReactNode;
+  isDashboard?: boolean;
+}
 
-const MainLayout = ({ children }: { children: React.ReactNode }) => {
+const MainLayout = ({
+  title,
+  subtitle,
+  children,
+  isDashboard = false,
+}: MainLayoutProps) => {
   return (
-    <>
-      <div className=" min-h-screen relative">
-      <div className="absolute inset-0 -z-10 h-full w-full bg-transparent bg-[radial-gradient(var(--color-line),transparent_1px)] [background-size:16px_16px]"></div>
-
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
-      </div>
-    </>
+    <div className="flex h-[100dvh] overflow-hidden">
+      <Sidebar />
+      <main className="flex-1 overflow-y-auto hide-scrollbar">
+        <Header isDashboard={isDashboard} />
+        <div>
+            {title && (
+              <div className="w-[90%] mx-auto mt-6">
+                <h3 className="text-2xl font-bold">{title}</h3>
+                {subtitle && <p className="text-muted">{subtitle}</p>}
+              </div>
+            )}
+            <div className="w-[90%] mx-auto pb-10 mt-6 space-y-4">{children}</div>
+        </div>
+      </main>
+    </div>
   );
 };
 
